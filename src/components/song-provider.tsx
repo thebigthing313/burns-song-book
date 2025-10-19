@@ -4,7 +4,7 @@ import { SongList, type Song } from '../lib/song';
 import type { Grouping } from './song-context';
 import { SongContext } from './song-context';
 import { countBy, groupBy, type Dictionary } from 'lodash';
-import { normalizeNameKey } from '@/lib/utils';
+import { normalizeArticles, normalizeNameKey } from '@/lib/utils';
 
 function generateGroups(
   songs: Array<Song>,
@@ -17,14 +17,9 @@ function generateGroups(
 
   switch (field) {
     case 'artist': {
-      // Normalize artist names for sorting/grouping by removing leading "A " or "The " (case-insensitive)
-      const normalizeArtist = (name: string) => {
-        return name.replace(/^\s*(?:the|a)\s+/i, '').trim();
-      };
-
       // Primary: normalized artist, Secondary: song name
       sortedSongs = [...songs].sort((a, b) => {
-        const pa = normalizeArtist(a.artist).localeCompare(normalizeArtist(b.artist));
+        const pa = normalizeArticles(a.artist).localeCompare(normalizeArticles(b.artist));
         if (pa !== 0) return pa;
         return a.name.localeCompare(b.name);
       });
@@ -53,7 +48,7 @@ function generateGroups(
       break;
     }
     case 'name': {
-      sortedSongs = [...songs].sort((a, b) => a.name.localeCompare(b.name));
+      sortedSongs = [...songs].sort((a, b) => normalizeArticles(a.name).localeCompare(normalizeArticles(b.name)));
       countedSongs = countBy(sortedSongs, (song) => normalizeNameKey(song.name));
       groupedSongs = groupBy(sortedSongs, (song) => {
         const key = normalizeNameKey(song.name);
