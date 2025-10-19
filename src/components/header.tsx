@@ -1,9 +1,5 @@
-import { SearchIcon } from 'lucide-react';
-import { Button } from './ui/button';
 import { Typography } from './typography';
 import { useSongs } from './hooks/use-songs';
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from './ui/drawer';
-import { Label } from './ui/label';
 import { ModeToggle } from './mode-toggle';
 
 interface HeaderProps {
@@ -19,57 +15,6 @@ export function Header({ className }: HeaderProps) {
         <span className='text-muted-foreground text-xs'>{`(${count} songs)`}</span>
       </div>
       <ModeToggle />
-      <SortDrawer />
     </header>
-  );
-}
-
-function SortDrawer() {
-  const { groupBy } = useSongs();
-  return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <Button className='bg-primary/50 shadow-accent shadow-2xl' aria-label='Search' variant='default' size='icon'>
-          <SearchIcon />
-        </Button>
-      </DrawerTrigger>
-      <DrawerHeader className='sr-only'>
-        <DrawerTitle>Filter</DrawerTitle>
-        <DrawerDescription>Search for a song</DrawerDescription>
-      </DrawerHeader>
-      <DrawerContent className='p-4'>
-        <div className='mx-auto w-full max-w-sm flex flex-col gap-4'>
-          <Label>Sort By:</Label>
-
-          <DrawerClose asChild>
-            <Button
-              onClick={() => {
-                groupBy('artist');
-              }}
-            >
-              Artist
-            </Button>
-          </DrawerClose>
-          <DrawerClose asChild>
-            <Button
-              onClick={() => {
-                groupBy('name');
-              }}
-            >
-              Song Title
-            </Button>
-          </DrawerClose>
-          <DrawerClose asChild>
-            <Button
-              onClick={() => {
-                groupBy('genre');
-              }}
-            >
-              Genre
-            </Button>
-          </DrawerClose>
-        </div>
-      </DrawerContent>
-    </Drawer>
   );
 }
