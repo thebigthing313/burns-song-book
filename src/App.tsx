@@ -1,14 +1,17 @@
 import { Header } from './components/header';
 import { MainContent } from './components/main-content';
 import { SearchBar } from './components/search-bar';
+import { ThemeProvider } from './components/theme-provider';
 
 function App() {
   return (
-    <div className='flex flex-col gap-2 w-screen h-screen'>
-      <Header className='bg-accent w-full flex flex-row justify-between border-b px-6 py-2 items-center' />
-      <SearchBar className='px-6 py-2' />
-      <MainContent className='bg-background flex-1 px-6 mb-4 overflow-y-auto' />
-    </div>
+    <ThemeProvider defaultTheme='system' storageKey='burns-song-book-theme'>
+      <div className='flex flex-col gap-2 w-screen h-screen'>
+        <Header className='bg-accent w-full flex flex-row justify-between border-b px-6 py-2 items-center' />
+        <SearchBar className='px-6 py-2' />
+        <MainContent className='bg-background flex-1 px-6 mb-4 overflow-y-auto' />
+      </div>
+    </ThemeProvider>
   );
 }
 

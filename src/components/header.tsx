@@ -4,6 +4,7 @@ import { Typography } from './typography';
 import { useSongs } from './hooks/use-songs';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from './ui/drawer';
 import { Label } from './ui/label';
+import { ModeToggle } from './mode-toggle';
 
 interface HeaderProps {
   className?: string;
@@ -17,6 +18,7 @@ export function Header({ className }: HeaderProps) {
         <Typography tag='h1'>Song Book</Typography>
         <span className='text-muted-foreground text-xs'>{`(${count} songs)`}</span>
       </div>
+      <ModeToggle />
       <SortDrawer />
     </header>
   );
