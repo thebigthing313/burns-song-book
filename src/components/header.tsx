@@ -2,7 +2,7 @@ import { SearchIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { Typography } from './typography';
 import { useSongs } from './hooks/use-songs';
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from './ui/drawer';
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from './ui/drawer';
 import { Label } from './ui/label';
 
 interface HeaderProps {
@@ -38,27 +38,34 @@ function SortDrawer() {
       <DrawerContent className='p-4'>
         <div className='mx-auto w-full max-w-sm flex flex-col gap-4'>
           <Label>Sort By:</Label>
-          <Button
-            onClick={() => {
-              groupBy('artist');
-            }}
-          >
-            Artist
-          </Button>
-          <Button
-            onClick={() => {
-              groupBy('name');
-            }}
-          >
-            Song Title
-          </Button>
-          <Button
-            onClick={() => {
-              groupBy('genre');
-            }}
-          >
-            Genre
-          </Button>
+
+          <DrawerClose asChild>
+            <Button
+              onClick={() => {
+                groupBy('artist');
+              }}
+            >
+              Artist
+            </Button>
+          </DrawerClose>
+          <DrawerClose asChild>
+            <Button
+              onClick={() => {
+                groupBy('name');
+              }}
+            >
+              Song Title
+            </Button>
+          </DrawerClose>
+          <DrawerClose asChild>
+            <Button
+              onClick={() => {
+                groupBy('genre');
+              }}
+            >
+              Genre
+            </Button>
+          </DrawerClose>
         </div>
       </DrawerContent>
     </Drawer>
