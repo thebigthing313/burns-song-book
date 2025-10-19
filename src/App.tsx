@@ -7,7 +7,7 @@ function App() {
     <div className='flex flex-col gap-2 w-screen h-screen'>
       <Header className='bg-accent w-full flex flex-row justify-between border-b px-6 py-2 items-center' />
       <SearchBar className='px-6 py-2' />
-      <MainContent className='bg-background flex-1 px-6 overflow-y-auto' />
+      <MainContent className='bg-background flex-1 px-6 mb-4 overflow-y-auto' />
     </div>
   );
 }
