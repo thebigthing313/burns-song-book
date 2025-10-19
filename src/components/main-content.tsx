@@ -1,4 +1,4 @@
-import { type CSSProperties, useCallback, useRef, useState } from 'react';
+import { type CSSProperties, useCallback, useRef } from 'react';
 import { useSongs } from './hooks/use-songs';
 import { SongCard } from './song-card';
 import type { Range } from '@tanstack/react-virtual';
@@ -6,16 +6,14 @@ import { defaultRangeExtractor, useVirtualizer } from '@tanstack/react-virtual';
 import type { Grouping } from './song-context';
 import type { Song } from '@/lib/song';
 import { StickyGroupCard } from './sticky-group-card';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
 
 interface MainContentProps {
   className?: string;
 }
 
 export function MainContent({ className }: MainContentProps) {
-  const { rows, stickyIndexes, headerType, filterGenre, filterArtist, filterSongName } = useSongs();
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const { rows, stickyIndexes } = useSongs();
+
   const parentRef = useRef<HTMLDivElement>(null);
   const activeStickyIndexRef = useRef(0);
 
@@ -43,29 +41,6 @@ export function MainContent({ className }: MainContentProps) {
 
   return (
     <main className={className}>
-      <div className='grid gap-2'>
-        <Label>Search:</Label>
-        <Input
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            switch (headerType) {
-              case 'artist':
-                filterArtist(e.target.value);
-                break;
-              case 'name':
-                filterSongName(e.target.value);
-                break;
-              case 'genre':
-                filterGenre(e.target.value);
-                break;
-            }
-          }}
-          type='text'
-          placeholder='Search...'
-          className='mb-4 w-full max-w-sm'
-        />
-      </div>
       <div ref={parentRef} className='overflow-auto h-full'>
         <div style={{ height: `${rowVirtualizer.getTotalSize()}px`, position: 'relative' }}>
           {rowVirtualizer.getVirtualItems().map((virtualRow) => {
