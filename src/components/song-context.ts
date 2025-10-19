@@ -1,6 +1,5 @@
 import { createContext } from 'react';
 import type { Song } from '../lib/song';
-import type { Dictionary } from 'lodash';
 
 export type GroupField = 'artist' | 'genre' | 'name';
 export type Grouping = {
@@ -12,8 +11,9 @@ export type Grouping = {
 export type SongContextType = {
   originalSongs: Song[];
   songs: Array<Song>;
-  // Keyed collection where each key maps to grouping metadata and its songs
-  groupedSongs: Dictionary<{ grouping: Grouping; songs: Song[] }>;
+  rows: Array<Song | Grouping>;
+  headers: string[];
+  stickyIndexes: number[];
   headerType: GroupField;
   count: number;
   groupBy: (field: GroupField) => void;
