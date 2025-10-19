@@ -4,9 +4,6 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
 ## React Compiler
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
@@ -28,27 +25,27 @@ export default defineConfig([
       // Alternatively, use this for stricter rules
       tseslint.configs.strictTypeChecked,
       // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+      tseslint.configs.stylisticTypeChecked
 
       // Other configs...
     ],
     languageOptions: {
       parserOptions: {
         project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
+        tsconfigRootDir: import.meta.dirname
+      }
       // other options...
-    },
-  },
-])
+    }
+  }
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from 'eslint-plugin-react-x';
+import reactDom from 'eslint-plugin-react-dom';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -59,15 +56,31 @@ export default defineConfig([
       // Enable lint rules for React
       reactX.configs['recommended-typescript'],
       // Enable lint rules for React DOM
-      reactDom.configs.recommended,
+      reactDom.configs.recommended
     ],
     languageOptions: {
       parserOptions: {
         project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
+        tsconfigRootDir: import.meta.dirname
+      }
       // other options...
-    },
-  },
-])
+    }
+  }
+]);
 ```
+
+## Progressive Web App (PWA)
+
+This project includes a minimal PWA setup: a web manifest (`/manifest.webmanifest`), simple icons in `/public/icons`, and a service worker (`/sw.js`) that precaches the app shell.
+
+How to test locally:
+
+1. Build the app: `pnpm build`
+2. Serve the `dist` folder over HTTPS or a local server (recommended: `serve -s dist` or `pnpm dlx http-server ./dist -p 5000`)
+3. Open the app in Chrome/Edge and inspect Application > Service Workers and Manifest to confirm registration.
+
+Notes and next steps:
+
+- Replace the placeholder icons with properly exported PNG or maskable icons for best cross-browser support.
+- Ensure the app is served over HTTPS in production — service workers and app installation require secure contexts.
+- Consider using Workbox or Vite PWA plugin (`vite-plugin-pwa`) for a more robust caching strategy and automatic asset hashing.
