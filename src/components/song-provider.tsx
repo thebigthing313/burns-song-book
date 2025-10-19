@@ -68,27 +68,23 @@ function generateGroups(
 
   const groups = Object.keys(groupedSongs);
   const stickyIndexes: number[] = [];
-  let currentIndex = 0; // Keep a running count of the index
+  let currentIndex = 0;
 
   const rows = groups.reduce<Array<Song | Grouping>>((acc, k) => {
     const header = groupingMap[k];
     const songsInGroup = groupedSongs[k];
 
-    // 1. Record the index of the header *before* adding it to the accumulator
     stickyIndexes.push(currentIndex);
 
-    // 2. Add the header and increment index count
     acc.push(header);
     currentIndex++;
 
-    // 3. Add the songs and increment index count
     acc.push(...songsInGroup);
     currentIndex += songsInGroup.length;
 
     return acc;
   }, []);
 
-  // Return the generated stickyIndexes along with groups and rows
   return { groups, rows, stickyIndexes };
 }
 
@@ -122,8 +118,6 @@ export function SongProvider({ children }: { children: React.ReactNode }) {
     [songs]
   );
 
-  // Memoize to avoid re-creating functions/objects on every render
-
   function filteredSongs(search: string, field: GroupField) {
     switch (field) {
       case 'artist':
@@ -155,6 +149,3 @@ export function SongProvider({ children }: { children: React.ReactNode }) {
 
   return <SongContext.Provider value={value}>{children}</SongContext.Provider>;
 }
-
-// Note: hooks that consume the context are implemented in a separate file
-// to avoid Fast Refresh issues when a file exports non-component helpers.
