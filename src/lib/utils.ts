@@ -12,3 +12,7 @@ export function normalizeNameKey(name: string) {
   if (first >= 'A' && first <= 'Z') return first;
   return '#';
 }
+
+export function normalizeArticles(name: string) {
+  return name.replace(/^\s*(?:the|a)\s+/i, '').trim();
+}
