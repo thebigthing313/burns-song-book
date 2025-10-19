@@ -1,4 +1,4 @@
-import { ChevronsUpDown, ListMusic, Mic, Music, RefreshCcw } from 'lucide-react';
+import { ChevronsUpDown, ListMusic, Mic2, Music, RefreshCcw } from 'lucide-react';
 import { Button } from './ui/button';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import debounce from 'lodash/debounce';
@@ -98,7 +98,7 @@ function SortDrawer() {
   const SortIcon = () => {
     switch (headerType) {
       case 'artist':
-        return <Mic />;
+        return <Mic2 />;
       case 'name':
         return <Music />;
       case 'genre':
@@ -112,8 +112,10 @@ function SortDrawer() {
     <Drawer>
       <DrawerTrigger asChild>
         <Button aria-label='Search Type' variant='ghost' size='icon-sm'>
-          <SortIcon />
-          <ChevronsUpDown />
+          <span className='flex items-center gap-2'>
+            <SortIcon />
+            <ChevronsUpDown />
+          </span>
         </Button>
       </DrawerTrigger>
       <DrawerHeader className='sr-only'>
@@ -129,7 +131,9 @@ function SortDrawer() {
                 groupBy('artist');
               }}
             >
-              Artist
+              <span className='flex items-center gap-2'>
+                <Mic2 /> Artist <Mic2 />
+              </span>
             </Button>
           </DrawerClose>
           <DrawerClose asChild>
@@ -138,7 +142,9 @@ function SortDrawer() {
                 groupBy('name');
               }}
             >
-              Song Title
+              <span className='flex items-center gap-2'>
+                <Music /> Song Title <Music />
+              </span>
             </Button>
           </DrawerClose>
           <DrawerClose asChild>
@@ -147,7 +153,10 @@ function SortDrawer() {
                 groupBy('genre');
               }}
             >
-              Genre
+              <span className='flex items-center gap-2'>
+                <ListMusic />
+                Genre <ListMusic />
+              </span>
             </Button>
           </DrawerClose>
         </div>
