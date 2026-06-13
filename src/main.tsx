@@ -3,12 +3,15 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import { SongProvider } from './components/song-provider';
+import { QueueProvider } from './components/queue-provider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <SongProvider>
-      <App />
-    </SongProvider>
+    <QueueProvider>
+      <SongProvider>
+        <App />
+      </SongProvider>
+    </QueueProvider>
   </StrictMode>
 );
 
