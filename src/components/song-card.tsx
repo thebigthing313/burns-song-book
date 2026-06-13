@@ -1,6 +1,7 @@
 import type { Song } from '@/lib/song';
 import { formatDuration } from '@/lib/utils';
 import { Check, Plus } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { Item, ItemActions, ItemContent } from './ui/item';
 import { Button } from './ui/button';
 import { useQueue } from './hooks/use-queue';
@@ -14,6 +15,21 @@ interface SongCardProps {
 export function SongCard({ song, className, style }: SongCardProps) {
   const { addToQueue, isQueued } = useQueue();
   const queued = isQueued(song.id);
+
+  // Animate the icon only on the false -> true transition (i.e. an actual
+  // add), not when an already-queued card mounts as it scrolls into view.
+  const wasQueued = useRef(queued);
+  const [justAdded, setJustAdded] = useState(false);
+
+  useEffect(() => {
+    if (queued && !wasQueued.current) {
+      setJustAdded(true);
+      const t = setTimeout(() => setJustAdded(false), 600);
+      wasQueued.current = queued;
+      return () => clearTimeout(t);
+    }
+    wasQueued.current = queued;
+  }, [queued]);
 
   return (
     <Item variant='outline' className={className} style={style}>
@@ -34,7 +50,11 @@ export function SongCard({ song, className, style }: SongCardProps) {
           disabled={queued}
           onClick={() => addToQueue(song)}
         >
-          {queued ? <Check /> : <Plus />}
+          {queued ? (
+            <Check className={justAdded ? 'animate-in zoom-in-50 spin-in-90 duration-500' : undefined} />
+          ) : (
+            <Plus />
+          )}
         </Button>
       </ItemActions>
     </Item>

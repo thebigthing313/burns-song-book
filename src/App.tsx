@@ -4,7 +4,6 @@ import { MainContent } from './components/main-content';
 import { SearchBar } from './components/search-bar';
 import { ThemeProvider } from './components/theme-provider';
 import { QueueView } from './components/queue-view';
-import { Toaster } from './components/ui/sonner';
 
 function SongListPage() {
   return (
@@ -33,7 +32,6 @@ function App() {
           <Route path='/queue' element={<QueuePage />} />
         </Routes>
       </HashRouter>
-      <Toaster richColors position='top-center' />
     </ThemeProvider>
   );
 }

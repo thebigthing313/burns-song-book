@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { toast } from 'sonner';
 import { arrayMove } from '@dnd-kit/sortable';
 import type { Song } from '@/lib/song';
 import { QueueContext, type QueueContextType } from './queue-context';
@@ -21,10 +20,7 @@ export function QueueProvider({ children }: { children: React.ReactNode }) {
   const [queue, setQueue] = useState<Song[]>(loadQueue);
 
   // Mirror the queue in a ref so the action callbacks can read the latest
-  // state without depending on it (keeps their identities stable) and so we
-  // can decide on toasts outside of the setState updater (avoids the
-  // "update a component while rendering" warning that firing toast() inside
-  // the updater would cause).
+  // state without depending on it (keeps their identities stable).
   const queueRef = useRef(queue);
   queueRef.current = queue;
 
@@ -40,19 +36,13 @@ export function QueueProvider({ children }: { children: React.ReactNode }) {
   const isQueued = useCallback((id: string) => queue.some((song) => song.id === id), [queue]);
 
   const addToQueue = useCallback((song: Song) => {
-    if (queueRef.current.some((s) => s.id === song.id)) {
-      toast.info(`"${song.name}" is already in the queue`);
-      return;
-    }
+    if (queueRef.current.some((s) => s.id === song.id)) return;
     setQueue((prev) => [...prev, song]);
-    toast.success(`Added "${song.name}" to the queue`);
   }, []);
 
   const removeFromQueue = useCallback((id: string) => {
-    const song = queueRef.current.find((s) => s.id === id);
-    if (!song) return;
+    if (!queueRef.current.some((s) => s.id === id)) return;
     setQueue((prev) => prev.filter((s) => s.id !== id));
-    toast.success(`Marked "${song.name}" as done`);
   }, []);
 
   const reorder = useCallback((activeId: string, overId: string) => {
@@ -66,7 +56,6 @@ export function QueueProvider({ children }: { children: React.ReactNode }) {
   const clearQueue = useCallback(() => {
     if (queueRef.current.length === 0) return;
     setQueue([]);
-    toast.success('Cleared the queue');
   }, []);
 
   const value = useMemo<QueueContextType>(
